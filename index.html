@@ -988,6 +988,7 @@
 
     <div class="stats-row">
       <div class="stat-chip">🎮 2 Juegos</div>
+      <div class="stat-chip">📹 10 Videos</div>
       <div class="stat-chip">📖 65+ Términos</div>
       <div class="stat-chip">🪳 100% Humor</div>
     </div>
@@ -1093,13 +1094,20 @@
     <div class="card" style="margin-top:20px;" id="videoInstructions">
       <div class="card-title"><span class="emoji">💡</span> ¿Cómo agregar videos?</div>
       <p class="card-text">
-        <strong>1.</strong> Subí tu video a pCloud<br>
-        <strong>2.</strong> Obtené el <strong>Direct Link</strong> (enlace directo .mp4)<br>
-        <strong>3.</strong> Agregalo al array <strong>VIDEOS</strong> en el código<br><br>
-        El enlace directo se ve así:<br>
-        <code style="background:rgba(255,255,255,0.08);padding:4px 10px;border-radius:6px;font-size:0.82rem;word-break:break-all;">
-          https://eXXX.pcloud.link/cBZxxxxx/mi-video.mp4
+        <strong style="color:var(--gold);">Opción A — Videos cortos (&lt;25MB):</strong><br>
+        Subí el .mp4 a la carpeta <strong>videos/</strong> en tu repo de GitHub.<br>
+        URL: <code style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:6px;font-size:0.82rem;">videos/mi-video.mp4</code>
+        <br><br>
+        <strong style="color:var(--pink);">Opción B — Videos largos (hasta 2GB):</strong><br>
+        <strong>1.</strong> En tu repo → pestaña <strong>Releases</strong> → <strong>Create a new release</strong><br>
+        <strong>2.</strong> Tag: <strong>videos</strong> · Título: <strong>Videos</strong><br>
+        <strong>3.</strong> Arrastrá tus .mp4 en "Attach binaries"<br>
+        <strong>4.</strong> Publicar. La URL será:<br>
+        <code style="background:rgba(255,255,255,0.08);padding:4px 10px;border-radius:6px;font-size:0.78rem;word-break:break-all;display:inline-block;margin-top:4px;">
+          https://github.com/TU-USUARIO/cucarachas-pop/releases/download/videos/mi-video.mp4
         </code>
+        <br><br>
+        Después agregá cada video al array <strong>VIDEOS</strong> en el código.
       </p>
     </div>
 
@@ -1347,38 +1355,80 @@
   }
 
   // ========================================
-  //  VIDEOS - SISTEMA DE VIDEOS CON PCLOUD
+  //  VIDEOS - SISTEMA DE VIDEOS
   //  ¡SOLO EDITÁ ESTE ARRAY PARA AGREGAR VIDEOS!
   //
-  //  Formato:
-  //  {
-  //    titulo: 'Nombre del video',
-  //    url: 'https://eXXX.pcloud.link/.../video.mp4',  ← Direct Link de pCloud
-  //    categoria: 'humor',        ← Para los filtros
-  //    fecha: '2025-06-15'        ← Fecha (opcional)
-  //  }
+  //  OPCIÓN A - Videos cortos (<25MB):
+  //    Subí a carpeta videos/ en tu repo GitHub
+  //    url: 'videos/mi-video.mp4'
+  //
+  //  OPCIÓN B - Videos largos (hasta 2GB):
+  //    Subí como GitHub Release (ver instrucciones abajo)
+  //    url: 'https://github.com/USUARIO/cucarachas-pop/releases/download/videos/mi-video.mp4'
   //
   //  Categorías sugeridas: humor, roast, edit, musical, viral
-  //  Podés inventar las que quieras
   // ========================================
   var VIDEOS = [
-    // ======= PEGÁ TUS VIDEOS AQUÍ =======
-    // Ejemplo (descomentá y cambiá la URL):
-    //
-     {
-       titulo: '🪳 Zorraliné siendo Zorraliné',
-       url: 'https://u.pcloud.link/publink/show?code=XZrE2t5ZFTERFrep5of5ohnzaN3P9SCFyO7V',
-       categoria: 'roast',
-       fecha: '2025-06-15'
-     },
-    // {
-    //   titulo: '☕ Sabricafe en su hábitat natural',
-    //   url: 'https://eXXX.pcloud.link/cBZxxxxx/video2.mp4',
-    //   categoria: 'humor',
-    //   fecha: '2025-06-10'
-    // },
-    //
-    // =====================================
+    {
+      titulo: '⛵ Barcoline Ataca',
+      url: 'video/barcoline-ataca.mp4',
+      categoria: 'roast',
+      fecha: '2025-01-01'
+    },
+    {
+      titulo: '🎂 Cumpleaños de Ajonce',
+      url: 'video/cumpleanos-de-ajonce.mp4',
+      categoria: 'humor',
+      fecha: '2025-01-01'
+    },
+    {
+      titulo: '💀 Día de Muertos',
+      url: 'video/dia-de-muertos.mp4',
+      categoria: 'humor',
+      fecha: '2025-01-01'
+    },
+    {
+      titulo: '🗣️ Dialecto Pop',
+      url: 'video/dialecto-pop.mp4',
+      categoria: 'musical',
+      fecha: '2025-01-01'
+    },
+    {
+      titulo: '📚 Días de Escuela',
+      url: 'video/dias-de-escuela.mp4',
+      categoria: 'humor',
+      fecha: '2025-01-01'
+    },
+    {
+      titulo: '🔥 El Apocalipsis',
+      url: 'video/el-apocalipsis.mp4',
+      categoria: 'roast',
+      fecha: '2025-01-01'
+    },
+    {
+      titulo: '🐔 El Negocio de Pollicki',
+      url: 'video/el-negocio-de-pollicki.mp4',
+      categoria: 'humor',
+      fecha: '2025-01-01'
+    },
+    {
+      titulo: '🍎 Live Action de Blancanieves',
+      url: 'video/live-action-de-blancanieves.mp4',
+      categoria: 'roast',
+      fecha: '2025-01-01'
+    },
+    {
+      titulo: '🎄 Relatp Navideño',
+      url: 'video/relatp-navideno.mp4',
+      categoria: 'humor',
+      fecha: '2025-01-01'
+    },
+    {
+      titulo: '💃 Te Bailo',
+      url: 'video/te-bailo.mp4',
+      categoria: 'musical',
+      fecha: '2025-01-01'
+    },
   ];
 
   function renderVideos() {
