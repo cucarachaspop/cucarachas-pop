@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cucarachas Pop - Humor Pop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS VARIABLES & RESET
+    ======================================== */
+    :root {
+      --brown-dark: #2C1A12;
+      --brown-deep: #3E2723;
+      --brown-mid: #5D4037;
+      --brown-base: #6D4C41;
+      --brown-light: #8D6E63;
+      --brown-lighter: #A1887F;
+      --cream: #EFEBE9;
+      --cream-light: #FFF8F0;
+      --gold: #FFD54F;
+      --gold-bright: #FFCA28;
+      --pink: #F48FB1;
+      --pink-deep: #EC407A;
+      --green: #66BB6A;
+      --red: #EF5350;
+      --glass-bg: rgba(255, 255, 255, 0.07);
+      --glass-bg-hover: rgba(255, 255, 255, 0.12);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-border-hover: rgba(255, 255, 255, 0.25);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,0.35);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.25);
+      --drawer-width: 280px;
+      --header-height: 60px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --radius-pill: 50px;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--brown-dark);
+      color: var(--cream);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ========================================
+       ANIMATED BACKGROUND
+    ======================================== */
+    .bg-scene {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: 
+        radial-gradient(ellipse at 20% 0%, rgba(141,110,99,0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(255,213,79,0.06) 0%, transparent 40%),
+        radial-gradient(ellipse at 60% 40%, rgba(244,143,177,0.05) 0%, transparent 40%),
+        linear-gradient(160deg, #2C1A12 0%, #3E2723 35%, #4E342E 65%, #2C1A12 100%);
+    }
+
+    .bg-scene::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .floating-emoji {
+      position: fixed;
+      font-size: 1.5rem;
+      opacity: 0;
+      animation: floatUp linear infinite;
+      z-index: 0;
+      pointer-events: none;
+      filter: grayscale(0.3);
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(105vh) rotate(0deg) scale(0.8); opacity: 0; }
+      8% { opacity: 0.09; }
+      88% { opacity: 0.09; }
+      100% { transform: translateY(-5vh) rotate(360deg) scale(1.1); opacity: 0; }
+    }
+
+    /* ========================================
+       TOP HEADER BAR
+    ======================================== */
+    .top-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-height);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      background: rgba(44, 26, 18, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background var(--transition);
+    }
+
+    .menu-toggle {
+      width: 44px; height: 44px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 5px;
+      background: none; border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 12px;
+      transition: background var(--transition);
+    }
+    .menu-toggle:hover { background: rgba(255,255,255,0.08); }
+
+    .menu-toggle span {
+      display: block;
+      width: 22px; height: 2.5px;
+      background: var(--cream);
+      border-radius: 2px;
+      transition: all var(--transition);
+      transform-origin: center;
+    }
+
+    .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .top-bar-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.15rem;
+      margin-left: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .top-bar-cockroach {
+      margin-left: auto;
+      font-size: 1.4rem;
+      animation: wiggle 2s ease-in-out infinite;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(10deg); }
+      75% { transform: rotate(-10deg); }
+    }
+
+    /* ========================================
+       DRAWER (Sidebar)
+    ======================================== */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 90;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .drawer-overlay.open { opacity: 1; visibility: visible; }
+
+    .drawer {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--drawer-width);
+      height: 100%;
+      z-index: 100;
+      background: linear-gradient(180deg, #2C1A12 0%, #3A2218 100%);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      transform: translateX(-100%);
+      transition: transform var(--transition);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .drawer.open { transform: translateX(0); }
+
+    .drawer-header {
+      padding: 28px 20px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+
+    .drawer-brand {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.3rem;
+      background: linear-gradient(135deg, var(--gold), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+    }
+
+    .drawer-sub {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .drawer-nav {
+      flex: 1;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition);
+      border: none;
+      background: none;
+      color: rgba(255,255,255,0.55);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      width: 100%;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+    .drawer-item:hover {
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.85);
+    }
+    .drawer-item.active {
+      background: linear-gradient(135deg, rgba(255,213,79,0.12), rgba(244,143,177,0.08));
+      color: var(--gold);
+    }
+    .drawer-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 20%; bottom: 20%;
+      width: 3px;
+      background: linear-gradient(180deg, var(--gold), var(--pink));
+      border-radius: 0 3px 3px 0;
+    }
+
+    .drawer-item-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+
+    .drawer-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.05);
+      margin: 8px 16px;
+    }
+
+    .drawer-section-label {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.2);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 10px 16px 4px;
+      font-weight: 800;
+    }
+
+    .drawer-footer {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+    }
+
+    .drawer-footer-links {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .drawer-fb-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: 'Nunito', sans-serif;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+    .drawer-fb-btn.primary {
+      background: linear-gradient(135deg, #1877F2, #0D47A1);
+      color: white;
+    }
+    .drawer-fb-btn.secondary {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.5);
+    }
+    .drawer-fb-btn:hover { transform: scale(1.04); }
+
+    .drawer-copyright {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.15);
+      margin-top: 6px;
+    }
+
+    /* ========================================
+       PAGE CONTENT AREA
+    ======================================== */
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      padding-top: var(--header-height);
+    }
+
+    .section {
+      display: none;
+      padding: 24px 16px 80px;
+      max-width: 900px;
+      margin: 0 auto;
+      animation: sectionIn 0.5s ease-out;
+    }
+    .section.active { display: block; }
+
+    @keyframes sectionIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================================
+       GLASS CARDS  
+    ======================================== */
+    .card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      margin-bottom: 20px;
+      transition: all var(--transition);
+    }
+    .card:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--glass-border-hover);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.25rem;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .card-title .emoji { font-size: 1.3rem; }
+
+    .card-text {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.7);
+    }
+    .card-text strong { color: var(--cream); }
+
+    /* ========================================
+       SECTION: INICIO (Hero)
+    ======================================== */
+    .hero {
+      text-align: center;
+      padding: 40px 0 20px;
+    }
+
+    .hero-logo {
+      width: 200px;
+      max-width: 55%;
+      border-radius: 18px;
+      filter: drop-shadow(0 6px 24px rgba(0,0,0,0.5));
+      margin-bottom: 16px;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .hero-logo.loaded { opacity: 1; }
+
+    .hero-profile-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .hero-avatar {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      object-fit: cover;
+      box-shadow: 0 0 20px rgba(255,213,79,0.25);
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .hero-avatar.loaded { opacity: 1; }
+
+    .hero-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--gold), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .hero-tagline {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 6px;
+      letter-spacing: 1px;
+    }
+
+    /* Quick stats */
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin: 24px 0 16px;
+      flex-wrap: wrap;
+    }
+
+    .stat-chip {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-pill);
+      padding: 8px 18px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.6);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+    .stat-chip:hover {
+      background: var(--glass-bg-hover);
+      color: var(--cream);
+    }
+
+    /* ========================================
+       SECTION: JUEGOS
+    ======================================== */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .game-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .game-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--glass-border-hover);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .game-card-preview {
+      aspect-ratio: 16/10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .game-card-preview.sopa-bg {
+      background: linear-gradient(135deg, rgba(78,52,46,0.8), rgba(109,76,65,0.6));
+    }
+    .game-card-preview.adivina-bg {
+      background: linear-gradient(135deg, rgba(93,64,55,0.8), rgba(141,110,99,0.5));
+    }
+
+    .preview-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 3px;
+      padding: 14px;
+      opacity: 0.6;
+    }
+    .preview-mini-cell {
+      width: 24px; height: 24px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.5);
+    }
+    .preview-mini-cell.highlight {
+      background: rgba(255,213,79,0.2);
+      color: var(--gold);
+    }
+
+    .emoji-big { font-size: 3rem; animation: bounce 2.5s ease-in-out infinite; }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .preview-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      margin-top: 4px;
+    }
+
+    .game-card-body {
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .game-card-name {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+    .game-card-desc {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .btn-play {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 28px;
+      border: none;
+      border-radius: var(--radius-pill);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      color: var(--brown-dark);
+      box-shadow: 0 4px 16px rgba(255,213,79,0.3);
+    }
+    .btn-play:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 6px 24px rgba(255,213,79,0.4);
+    }
+
+    /* ========================================
+       SECTION: TÉRMINOS
+    ======================================== */
+    .terms-search {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .terms-search input {
+      width: 100%;
+      padding: 14px 20px 14px 48px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: var(--cream);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      outline: none;
+      transition: all var(--transition);
+    }
+    .terms-search input::placeholder { color: rgba(255,255,255,0.25); }
+    .terms-search input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(255,213,79,0.1);
+    }
+    .terms-search-icon {
+      position: absolute;
+      left: 18px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      opacity: 0.4;
+    }
+
+    .terms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .term-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      transition: all var(--transition);
+    }
+    .term-card:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--glass-border-hover);
+      transform: translateY(-2px);
+    }
+    .term-card.hidden { display: none; }
+
+    .term-name {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1rem;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .term-def {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       SECTION: VIDEOS / EDITS
+    ======================================== */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .content-placeholder {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      aspect-ratio: 16/9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all var(--transition);
+    }
+    .content-placeholder:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--glass-border-hover);
+    }
+    .content-placeholder .big-emoji { font-size: 2.5rem; opacity: 0.4; }
+    .content-placeholder .placeholder-text {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.25);
+      font-weight: 700;
+    }
+
+    /* ========================================
+       SECTION: APPS
+    ======================================== */
+    .app-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .app-item {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all var(--transition);
+    }
+    .app-item:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--glass-border-hover);
+      transform: translateX(4px);
+    }
+    .app-icon { font-size: 2rem; }
+    .app-info { flex: 1; }
+    .app-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 2px; }
+    .app-desc { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+    .app-badge {
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      background: rgba(255,213,79,0.12);
+      color: var(--gold);
+      white-space: nowrap;
+    }
+    .app-badge.soon {
+      background: rgba(244,143,177,0.12);
+      color: var(--pink);
+    }
+
+    /* ========================================
+       UTILITIES / RESPONSIVE
+    ======================================== */
+    .section-header {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.5rem;
+      color: var(--cream);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-header .emoji { font-size: 1.4rem; }
+
+    .section-subtitle {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 20px;
+    }
+
+    .divider-cockroach {
+      text-align: center;
+      padding: 8px 0;
+      font-size: 0.85rem;
+      opacity: 0.2;
+      letter-spacing: 10px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 40px 0 20px;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.15);
+    }
+
+    @media (max-width: 600px) {
+      :root { --drawer-width: 260px; }
+      .hero-title { font-size: 1.7rem; }
+      .hero-logo { width: 160px; }
+      .hero-avatar { width: 52px; height: 52px; }
+      .card { padding: 20px 16px; }
+      .games-grid { grid-template-columns: 1fr; }
+      .terms-grid { grid-template-columns: 1fr; }
+      .content-grid { grid-template-columns: 1fr; }
+      .preview-mini-cell { width: 20px; height: 20px; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(141,110,99,0.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(141,110,99,0.5); }
+  </style>
+</head>
+<body>
+
+<!-- ========== BACKGROUND ========== -->
+<div class="bg-scene"></div>
+
+<!-- ========== TOP BAR ========== -->
+<header class="top-bar">
+  <button class="menu-toggle" id="menuToggle" onclick="toggleDrawer()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+  <span class="top-bar-title">Cucarachas Pop</span>
+  <span class="top-bar-cockroach">🪳</span>
+</header>
+
+<!-- ========== DRAWER OVERLAY ========== -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- ========== DRAWER ========== -->
+<nav class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div class="drawer-brand">🪳 Cucarachas Pop</div>
+    <div class="drawer-sub">Humor Pop</div>
+  </div>
+
+  <div class="drawer-nav">
+    <div class="drawer-section-label">Navegación</div>
+    <button class="drawer-item active" data-section="inicio" onclick="navigateTo('inicio')">
+      <span class="drawer-item-icon">🏠</span> Inicio
+    </button>
+    <button class="drawer-item" data-section="terminos" onclick="navigateTo('terminos')">
+      <span class="drawer-item-icon">📖</span> Términos Pop
+    </button>
+    <button class="drawer-item" data-section="juegos" onclick="navigateTo('juegos')">
+      <span class="drawer-item-icon">🎮</span> Juegos
+    </button>
+
+    <div class="drawer-divider"></div>
+    <div class="drawer-section-label">Contenido</div>
+
+    <button class="drawer-item" data-section="videos" onclick="navigateTo('videos')">
+      <span class="drawer-item-icon">📹</span> Videos
+    </button>
+    <button class="drawer-item" data-section="edits" onclick="navigateTo('edits')">
+      <span class="drawer-item-icon">✂️</span> Edits
+    </button>
+    <button class="drawer-item" data-section="apps" onclick="navigateTo('apps')">
+      <span class="drawer-item-icon">📱</span> Apps
+    </button>
+  </div>
+
+  <div class="drawer-footer">
+    <div class="drawer-footer-links">
+      <a href="https://www.facebook.com/share/18MjykAnfd/" target="_blank" class="drawer-fb-btn primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Página
+      </a>
+      <a href="https://www.facebook.com/share/1ZyXmstBd4/" target="_blank" class="drawer-fb-btn secondary">
+        Respaldo
+      </a>
+    </div>
+    <div class="drawer-copyright">© 2025 Cucarachas Pop</div>
+  </div>
+</nav>
+
+<!-- ========== PAGE CONTENT ========== -->
+<main class="page-wrap">
+
+  <!-- ===== INICIO ===== -->
+  <section class="section active" id="sec-inicio">
+    <div class="hero">
+      <!-- Reemplaza src con la ruta de tu imagen en el repo de GitHub -->
+      <img id="heroLogo" class="hero-logo" src="" alt="Cucarachas Pop Logo">
+      <div class="hero-profile-row">
+        <img id="heroAvatar" class="hero-avatar" src="" alt="Perfil">
+        <div>
+          <h1 class="hero-title">Cucarachas Pop</h1>
+          <p class="hero-tagline">La página del milenio 🪳✨</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-chip">🎮 2 Juegos</div>
+      <div class="stat-chip">📖 65+ Términos</div>
+      <div class="stat-chip">🪳 100% Humor</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="emoji">🪳</span> ¿Quiénes somos?</div>
+      <p class="card-text">
+        <strong>Cucarachas Pop</strong> — Sitio oficial de la página del milenio.
+        Hemos venido a poner en su lugar a Zorraliné y no nos iremos hasta que entiendan que Mancaline es nadie.
+        Aquí hasta las cucarachas tienen más talento que Perraliné. 🎶✨
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="emoji">🎮</span> Juegos Destacados</div>
+      <p class="card-text" style="margin-bottom:14px;">¡Pon a prueba tu conocimiento pop!</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-play" onclick="navigateTo('juegos')">🔤 Sopa de Letras</button>
+        <button class="btn-play" onclick="navigateTo('juegos')">🎤 Adivina el Artista</button>
+      </div>
+    </div>
+
+    <div class="divider-cockroach">🪳 🪳 🪳</div>
+
+    <div class="footer-bottom">
+      Cucarachas Pop © 2025 — Hecho con humor, café, pepinos y ajos 🪳
+    </div>
+  </section>
+
+  <!-- ===== TÉRMINOS POP ===== -->
+  <section class="section" id="sec-terminos">
+    <h2 class="section-header"><span class="emoji">📖</span> Términos de Humor Pop</h2>
+    <p class="section-subtitle">El diccionario definitivo de la cucaracha pop</p>
+
+    <div class="terms-search">
+      <span class="terms-search-icon">🔍</span>
+      <input type="text" id="termsSearchInput" placeholder="Buscar término..." oninput="filterTerms()">
+    </div>
+
+    <div class="terms-grid" id="termsGrid">
+      <!-- Términos se generan con JS -->
+    </div>
+
+    <div class="footer-bottom">Más términos próximamente... 🪳</div>
+  </section>
+
+  <!-- ===== JUEGOS ===== -->
+  <section class="section" id="sec-juegos">
+    <h2 class="section-header"><span class="emoji">🎮</span> Juegos Interactivos</h2>
+    <p class="section-subtitle">¡Diviértete mientras demuestras tu conocimiento pop!</p>
+
+    <div class="games-grid">
+      <!-- Sopa de Letras -->
+      <div class="game-card" onclick="openGame('sopadeletras')">
+        <div class="game-card-preview sopa-bg">
+          <div class="preview-mini-grid">
+            <div class="preview-mini-cell">S</div><div class="preview-mini-cell highlight">H</div><div class="preview-mini-cell">A</div><div class="preview-mini-cell highlight">K</div><div class="preview-mini-cell">I</div><div class="preview-mini-cell">R</div>
+            <div class="preview-mini-cell highlight">P</div><div class="preview-mini-cell">O</div><div class="preview-mini-cell highlight">P</div><div class="preview-mini-cell">X</div><div class="preview-mini-cell">M</div><div class="preview-mini-cell highlight">A</div>
+            <div class="preview-mini-cell">G</div><div class="preview-mini-cell highlight">A</div><div class="preview-mini-cell">G</div><div class="preview-mini-cell">A</div><div class="preview-mini-cell highlight">Z</div><div class="preview-mini-cell">T</div>
+            <div class="preview-mini-cell highlight">B</div><div class="preview-mini-cell">E</div><div class="preview-mini-cell">Y</div><div class="preview-mini-cell highlight">O</div><div class="preview-mini-cell">N</div><div class="preview-mini-cell">C</div>
+          </div>
+        </div>
+        <div class="game-card-body">
+          <h3 class="game-card-name">🔤 Sopa de Letras</h3>
+          <p class="game-card-desc">Encuentra artistas y palabras pop escondidas en la sopaj.</p>
+          <button class="btn-play" onclick="event.stopPropagation();openGame('sopadeletras')">▶ Jugar</button>
+        </div>
+      </div>
+
+      <!-- Adivina el Artista -->
+      <div class="game-card" onclick="openGame('adivinaartista')">
+        <div class="game-card-preview adivina-bg">
+          <div class="emoji-big">☕🎤❓</div>
+          <div class="preview-label">¿Quién es este artista?</div>
+        </div>
+        <div class="game-card-body">
+          <h3 class="game-card-name">🎤 Adivina el Artista</h3>
+          <p class="game-card-desc">¿Puedes adivinar al artistaj solo con un emoji?</p>
+          <button class="btn-play" onclick="event.stopPropagation();openGame('adivinaartista')">▶ Jugar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">Más juegos próximamente... 🪳</div>
+  </section>
+
+  <!-- ===== VIDEOS ===== -->
+  <section class="section" id="sec-videos">
+    <h2 class="section-header"><span class="emoji">📹</span> Videos</h2>
+    <p class="section-subtitle">Los mejores videos de Cucarachas Pop</p>
+
+    <div class="content-grid" id="videosGrid">
+      <div class="content-placeholder">
+        <span class="big-emoji">📹</span>
+        <span class="placeholder-text">Próximamente</span>
+      </div>
+      <div class="content-placeholder">
+        <span class="big-emoji">🎬</span>
+        <span class="placeholder-text">Próximamente</span>
+      </div>
+      <div class="content-placeholder">
+        <span class="big-emoji">🍿</span>
+        <span class="placeholder-text">Próximamente</span>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title"><span class="emoji">💡</span> ¿Cómo agregar videos?</div>
+      <p class="card-text">
+        Aquí podrás incrustar videos de YouTube, Facebook o TikTok. Desarrollaremos esta sección cuando tengas listos los enlaces de tus videos.
+      </p>
+    </div>
+
+    <div class="footer-bottom">Contenido en desarrollo... 🪳</div>
+  </section>
+
+  <!-- ===== EDITS ===== -->
+  <section class="section" id="sec-edits">
+    <h2 class="section-header"><span class="emoji">✂️</span> Edits</h2>
+    <p class="section-subtitle">Las mejores ediciones de la comunidad cucarachera</p>
+
+    <div class="content-grid" id="editsGrid">
+      <div class="content-placeholder">
+        <span class="big-emoji">✂️</span>
+        <span class="placeholder-text">Próximamente</span>
+      </div>
+      <div class="content-placeholder">
+        <span class="big-emoji">🎨</span>
+        <span class="placeholder-text">Próximamente</span>
+      </div>
+      <div class="content-placeholder">
+        <span class="big-emoji">🖼️</span>
+        <span class="placeholder-text">Próximamente</span>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title"><span class="emoji">💡</span> ¿Cómo agregar edits?</div>
+      <p class="card-text">
+        Aquí se mostrarán las imágenes editadas y memes. Podés agregar imágenes directamente al repositorio de GitHub y las mostramos en una galería.
+      </p>
+    </div>
+
+    <div class="footer-bottom">Contenido en desarrollo... 🪳</div>
+  </section>
+
+  <!-- ===== APPS ===== -->
+  <section class="section" id="sec-apps">
+    <h2 class="section-header"><span class="emoji">📱</span> Apps & Herramientas</h2>
+    <p class="section-subtitle">Herramientas cucaracheras para la comunidad</p>
+
+    <div class="app-list">
+      <div class="app-item">
+        <span class="app-icon">🔤</span>
+        <div class="app-info">
+          <div class="app-name">Sopa de Letras</div>
+          <div class="app-desc">Encuentra las palabras pop escondidas</div>
+        </div>
+        <span class="app-badge">Activo</span>
+      </div>
+      <div class="app-item">
+        <span class="app-icon">🎤</span>
+        <div class="app-info">
+          <div class="app-name">Adivina el Artista</div>
+          <div class="app-desc">¿Reconocés al artista por un emoji?</div>
+        </div>
+        <span class="app-badge">Activo</span>
+      </div>
+      <div class="app-item">
+        <span class="app-icon">🪳</span>
+        <div class="app-info">
+          <div class="app-name">Generador de Apodos</div>
+          <div class="app-desc">Creá apodos cucaracheros para cualquier artista</div>
+        </div>
+        <span class="app-badge soon">Próximamente</span>
+      </div>
+      <div class="app-item">
+        <span class="app-icon">📊</span>
+        <div class="app-info">
+          <div class="app-name">Ranking Cucarachero</div>
+          <div class="app-desc">Votá y mirá el ranking de artistas</div>
+        </div>
+        <span class="app-badge soon">Próximamente</span>
+      </div>
+      <div class="app-item">
+        <span class="app-icon">🎵</span>
+        <div class="app-info">
+          <div class="app-name">Lotería Pop</div>
+          <div class="app-desc">La lotería pero con artistas pop</div>
+        </div>
+        <span class="app-badge soon">Próximamente</span>
+      </div>
+    </div>
+
+    <div class="footer-bottom">Más herramientas en desarrollo... 🪳</div>
+  </section>
+
+</main>
+
+<script>
+  // ========================================
+  //  FLOATING EMOJIS
+  // ========================================
+  (function() {
+    var emojis = ['🪳','🎵','🎤','⭐','🎶','💃','🪩','🎧','✨'];
+    for (var i = 0; i < 12; i++) {
+      var span = document.createElement('span');
+      span.className = 'floating-emoji';
+      span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      span.style.left = (Math.random() * 100) + '%';
+      span.style.animationDuration = (14 + Math.random() * 20) + 's';
+      span.style.animationDelay = (Math.random() * 18) + 's';
+      span.style.fontSize = (1 + Math.random() * 1) + 'rem';
+      document.body.appendChild(span);
+    }
+  })();
+
+  // ========================================
+  //  DRAWER LOGIC
+  // ========================================
+  function toggleDrawer() {
+    var drawer = document.getElementById('drawer');
+    var overlay = document.getElementById('drawerOverlay');
+    var toggle = document.getElementById('menuToggle');
+    var isOpen = drawer.classList.contains('open');
+
+    if (isOpen) {
+      closeDrawer();
+    } else {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      toggle.classList.add('active');
+    }
+  }
+
+  function closeDrawer() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawerOverlay').classList.remove('open');
+    document.getElementById('menuToggle').classList.remove('active');
+  }
+
+  // ========================================
+  //  NAVIGATION (SPA-style)
+  // ========================================
+  function navigateTo(sectionId) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+    // Show target
+    var target = document.getElementById('sec-' + sectionId);
+    if (target) target.classList.add('active');
+    // Update drawer active state
+    document.querySelectorAll('.drawer-item').forEach(function(item) {
+      item.classList.toggle('active', item.dataset.section === sectionId);
+    });
+    // Close drawer
+    closeDrawer();
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ========================================
+  //  GAME LAUNCHER
+  //  Para GitHub Pages: los juegos serán
+  //  archivos HTML separados en el mismo repo
+  // ========================================
+  function openGame(game) {
+    // Ajusta estas rutas según tu estructura de repo
+    var gameUrls = {
+      'sopadeletras': 'sopa-de-letras.html',
+      'adivinaartista': 'adivina-artista.html'
+    };
+    if (gameUrls[game]) {
+      window.open(gameUrls[game], '_blank');
+    }
+  }
+
+  // ========================================
+  //  TÉRMINOS DE HUMOR POP
+  //  Agregá o editá los que quieras aquí
+  // ========================================
+  var TERMINOS = [
+    { nombre: 'Shakicuernos', def: 'Apodo para la que le pusieron los cuernos con un mini monopoly.' },
+    { nombre: 'Ajonce', def: 'Beyoncé pero con aliento a ajo.' },
+    { nombre: 'Bebonna', def: 'Madonna versión bebé o cringe.' },
+    { nombre: 'Riherpes', def: 'Rihanna pero con regalitos extra.' },
+    { nombre: 'Adelegazo', def: 'Adele versión fitness extrema.' },
+    { nombre: 'Mierga', def: 'Lady Gaga pero versión... bueno, ya sabés.' },
+    { nombre: 'Locaney', def: 'Britney en su era más descontrolada.' },
+    { nombre: 'Tayjoroba', def: 'Taylor Swift robando melodías.' },
+    { nombre: 'Seleperro', def: 'Selena Gomez y sus relaciones caninas.' },
+    { nombre: 'Cucaracharol', def: 'Karol G en modo cucaracha total.' },
+    { nombre: 'Flopalia', def: 'Rosalía cuando floppea.' },
+    { nombre: 'Mierdonna', def: 'Madonna en su era más cuestionable.' },
+    { nombre: 'Amarillaty', def: 'Katy Perry era piña amarillenta.' },
+    { nombre: 'Mierdua', def: 'Dua Lipa versión desastre.' },
+    { nombre: 'Incestillie', def: 'Billie Eilish y su... relación familiar.' },
+    { nombre: 'Bombariana', def: 'Ariana Grande y sus explosiones.' },
+    { nombre: 'Chinaj', def: 'Nicki Minaj versión china.' },
+    { nombre: 'Cariñosardi', def: 'Cardi B siendo cariñosa a su manera.' },
+    { nombre: 'Miadosley', def: 'Miley Cyrus en modo salvaje.' },
+    { nombre: 'Jabalizzo', def: 'Lizzo en modo jabalí tripudo.' },
+    { nombre: 'Mafionce', def: 'Beyoncé y sus conexiones mafiosas.' },
+    { nombre: 'Culork', def: 'Björk pero con más personalidad trasera.' },
+    { nombre: 'Pendejarca', def: 'Shakira en modo pendejo.' },
+    { nombre: 'Arichan', def: 'Ariana Grande versión anime.' },
+    { nombre: 'Sabriscort', def: 'Sabrina Carpenter la scort.' },
+    { nombre: 'Sabricafe', def: 'Sabrina Carpenter con sabor a café.' },
+    { nombre: 'Plagiolivia', def: 'Olivia Rodrigo y sus plagios.' },
+    { nombre: 'Hongomila', def: 'Camila Cabello con hongos.' },
+    { nombre: 'Zorraliné', def: 'Caroline Polachek la manca zorra.' },
+    { nombre: 'Mancaline', def: 'Caroline pero manca.' },
+    { nombre: 'Perraliné', def: 'Caroline en modo perro.' },
+    { nombre: 'Fantesmi', def: 'Fantasma de la música.' },
+    { nombre: 'Chespiritaj', def: 'Chespirito versión musical.' },
+    { nombre: 'Miersia', def: 'Sia en su peor momento.' },
+    { nombre: 'Barcoline', def: 'Caroline y el barco.' },
+    { nombre: 'Selemanca', def: 'Selena versión manca.' },
+    { nombre: 'Pendejaga', def: 'Lady Gaga en modo pendejo.' },
+    { nombre: 'Hormonarol', def: 'Karol G y sus hormonas.' },
+    { nombre: 'Taymochila', def: 'Taylor Swift cargando su mochila.' },
+    { nombre: 'Tayble', def: 'Taylor Swift versión mueble.' },
+    { nombre: 'Beymanca', def: 'Beyoncé sin brazos.' },
+    { nombre: 'Perraline', def: 'Caroline Polachek la perra.' },
+    { nombre: 'Taycucasucia', def: 'Taylor siendo una cucaracha sucia.' },
+    { nombre: 'Tutelaney', def: 'Britney y su tutela.' },
+    { nombre: 'Lordeforme', def: 'Lorde deforme.' },
+    { nombre: 'Xflop', def: 'Charli XCX cuando floppea.' },
+    { nombre: 'Charlixbox', def: 'Charli XCX versión consola.' },
+    { nombre: 'Espongela', def: 'Adele esponja.' },
+    { nombre: 'Mancana', def: 'Rihanna la manca.' },
+    { nombre: 'Elefantana', def: 'Rihanna con frente de elefante.' },
+    { nombre: 'Botoxna', def: 'Rihanna y su botox.' },
+    { nombre: 'Barrilna', def: 'Rihanna como barril.' },
+    { nombre: 'Rotoplasna', def: 'Rihanna rotoplas.' },
+  ];
+
+  function renderTerminos() {
+    var grid = document.getElementById('termsGrid');
+    grid.innerHTML = '';
+    TERMINOS.forEach(function(t) {
+      var card = document.createElement('div');
+      card.className = 'term-card';
+      card.dataset.name = t.nombre.toLowerCase();
+      card.innerHTML = '<div class="term-name">🪳 ' + t.nombre + '</div><div class="term-def">' + t.def + '</div>';
+      grid.appendChild(card);
+    });
+  }
+
+  function filterTerms() {
+    var query = document.getElementById('termsSearchInput').value.toLowerCase().trim();
+    document.querySelectorAll('.term-card').forEach(function(card) {
+      var match = card.dataset.name.indexOf(query) >= 0 || card.querySelector('.term-def').textContent.toLowerCase().indexOf(query) >= 0;
+      card.classList.toggle('hidden', !match);
+    });
+  }
+
+  // ========================================
+  //  IMAGES - Para GitHub Pages:
+  //  Reemplazá las rutas con las de tu repo
+  // ========================================
+  function loadImages() {
+    // Cuando subas tus imágenes al repo, actualizá estas rutas:
+    // Ejemplo: 'images/logo.png', 'images/profile.jpg'
+    var logo = document.getElementById('heroLogo');
+    var avatar = document.getElementById('heroAvatar');
+
+    // Placeholder: descomentar y actualizar cuando tengas las imágenes
+    // logo.src = 'images/logo.png';
+    // logo.onload = function() { logo.classList.add('loaded'); };
+    // avatar.src = 'images/profile.jpg';
+    // avatar.onload = function() { avatar.classList.add('loaded'); };
+
+    // Por ahora mostramos placeholders
+    logo.alt = '🪳';
+    logo.style.display = 'none';
+    avatar.style.display = 'none';
+  }
+
+  // ========================================
+  //  INIT
+  // ========================================
+  renderTerminos();
+  loadImages();
+
+  // Handle back/forward navigation
+  window.addEventListener('popstate', function(e) {
+    if (e.state && e.state.section) {
+      navigateTo(e.state.section);
+    }
+  });
+
+  // Close drawer on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeDrawer();
+  });
+
+  // Swipe to open drawer
+  var touchStartX = 0;
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    var touchEndX = e.changedTouches[0].clientX;
+    var diff = touchEndX - touchStartX;
+    if (touchStartX < 30 && diff > 60) {
+      toggleDrawer();
+    } else if (diff < -60 && document.getElementById('drawer').classList.contains('open')) {
+      closeDrawer();
+    }
+  }, { passive: true });
+</script>
+
+</body>
+</html>
