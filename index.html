@@ -639,7 +639,143 @@
     }
 
     /* ========================================
-       SECTION: VIDEOS / EDITS
+       SECTION: VIDEOS
+    ======================================== */
+    .video-filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .filter-chip {
+      padding: 7px 16px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      color: rgba(255,255,255,0.5);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .filter-chip:hover { background: var(--glass-bg-hover); color: var(--cream); }
+    .filter-chip.active {
+      background: linear-gradient(135deg, rgba(255,213,79,0.15), rgba(244,143,177,0.1));
+      border-color: rgba(255,213,79,0.3);
+      color: var(--gold);
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .video-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all var(--transition);
+      animation: fadeInUp 0.5s ease-out both;
+    }
+    .video-card:hover {
+      border-color: var(--glass-border-hover);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .video-card.hidden { display: none; }
+
+    .video-player-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #1a0f0a;
+      overflow: hidden;
+    }
+    .video-player-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Custom play overlay before user taps play */
+    .video-play-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(44,26,18,0.2) 0%, rgba(44,26,18,0.6) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .video-play-overlay:hover { background: rgba(44,26,18,0.4); }
+    .video-play-overlay.hidden { display: none; }
+
+    .play-circle {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: rgba(255,213,79,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(255,213,79,0.4);
+      transition: all 0.3s ease;
+    }
+    .video-play-overlay:hover .play-circle {
+      transform: scale(1.1);
+      box-shadow: 0 6px 28px rgba(255,213,79,0.5);
+    }
+    .play-triangle {
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 12px 0 12px 22px;
+      border-color: transparent transparent transparent var(--brown-dark);
+      margin-left: 4px;
+    }
+
+    .video-card-body {
+      padding: 14px 18px;
+    }
+    .video-card-title {
+      font-weight: 800;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .video-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .video-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(255,213,79,0.1);
+      color: var(--gold);
+    }
+    .video-date {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .video-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 50px 20px;
+      color: rgba(255,255,255,0.25);
+    }
+    .video-empty .big-emoji { font-size: 3rem; display: block; margin-bottom: 10px; opacity: 0.4; }
+    .video-empty p { font-size: 0.9rem; font-weight: 700; }
+
+    /* ========================================
+       SECTION: EDITS
     ======================================== */
     .content-grid {
       display: grid;
@@ -758,6 +894,7 @@
       .games-grid { grid-template-columns: 1fr; }
       .terms-grid { grid-template-columns: 1fr; }
       .content-grid { grid-template-columns: 1fr; }
+      .videos-grid { grid-template-columns: 1fr; }
       .preview-mini-cell { width: 20px; height: 20px; }
     }
 
@@ -942,29 +1079,31 @@
     <h2 class="section-header"><span class="emoji">📹</span> Videos</h2>
     <p class="section-subtitle">Los mejores videos de Cucarachas Pop</p>
 
-    <div class="content-grid" id="videosGrid">
-      <div class="content-placeholder">
-        <span class="big-emoji">📹</span>
-        <span class="placeholder-text">Próximamente</span>
-      </div>
-      <div class="content-placeholder">
-        <span class="big-emoji">🎬</span>
-        <span class="placeholder-text">Próximamente</span>
-      </div>
-      <div class="content-placeholder">
-        <span class="big-emoji">🍿</span>
-        <span class="placeholder-text">Próximamente</span>
-      </div>
+    <!-- Filtros por categoría -->
+    <div class="video-filters" id="videoFilters">
+      <button class="filter-chip active" data-filter="todos" onclick="filterVideos('todos')">🪳 Todos</button>
+      <!-- Los filtros se generan automáticamente según las categorías de tus videos -->
     </div>
 
-    <div class="card" style="margin-top:20px;">
+    <div class="videos-grid" id="videosGrid">
+      <!-- Los videos se generan con JS desde el array VIDEOS -->
+    </div>
+
+    <!-- Instrucciones para agregar videos (se oculta cuando hay videos) -->
+    <div class="card" style="margin-top:20px;" id="videoInstructions">
       <div class="card-title"><span class="emoji">💡</span> ¿Cómo agregar videos?</div>
       <p class="card-text">
-        Aquí podrás incrustar videos de YouTube, Facebook o TikTok. Desarrollaremos esta sección cuando tengas listos los enlaces de tus videos.
+        <strong>1.</strong> Subí tu video a pCloud<br>
+        <strong>2.</strong> Obtené el <strong>Direct Link</strong> (enlace directo .mp4)<br>
+        <strong>3.</strong> Agregalo al array <strong>VIDEOS</strong> en el código<br><br>
+        El enlace directo se ve así:<br>
+        <code style="background:rgba(255,255,255,0.08);padding:4px 10px;border-radius:6px;font-size:0.82rem;word-break:break-all;">
+          https://eXXX.pcloud.link/cBZxxxxx/mi-video.mp4
+        </code>
       </p>
     </div>
 
-    <div class="footer-bottom">Contenido en desarrollo... 🪳</div>
+    <div class="footer-bottom">🪳 Cucarachas Pop TV</div>
   </section>
 
   <!-- ===== EDITS ===== -->
@@ -1208,6 +1347,141 @@
   }
 
   // ========================================
+  //  VIDEOS - SISTEMA DE VIDEOS CON PCLOUD
+  //  ¡SOLO EDITÁ ESTE ARRAY PARA AGREGAR VIDEOS!
+  //
+  //  Formato:
+  //  {
+  //    titulo: 'Nombre del video',
+  //    url: 'https://eXXX.pcloud.link/.../video.mp4',  ← Direct Link de pCloud
+  //    categoria: 'humor',        ← Para los filtros
+  //    fecha: '2025-06-15'        ← Fecha (opcional)
+  //  }
+  //
+  //  Categorías sugeridas: humor, roast, edit, musical, viral
+  //  Podés inventar las que quieras
+  // ========================================
+  var VIDEOS = [
+    // ======= PEGÁ TUS VIDEOS AQUÍ =======
+    // Ejemplo (descomentá y cambiá la URL):
+    //
+    // {
+    //   titulo: '🪳 Zorraliné siendo Zorraliné',
+    //   url: 'https://eXXX.pcloud.link/cBZxxxxx/video1.mp4',
+    //   categoria: 'roast',
+    //   fecha: '2025-06-15'
+    // },
+    // {
+    //   titulo: '☕ Sabricafe en su hábitat natural',
+    //   url: 'https://eXXX.pcloud.link/cBZxxxxx/video2.mp4',
+    //   categoria: 'humor',
+    //   fecha: '2025-06-10'
+    // },
+    //
+    // =====================================
+  ];
+
+  function renderVideos() {
+    var grid = document.getElementById('videosGrid');
+    var filtersEl = document.getElementById('videoFilters');
+    var instructions = document.getElementById('videoInstructions');
+    grid.innerHTML = '';
+
+    // Si no hay videos, mostrar mensaje vacío
+    if (VIDEOS.length === 0) {
+      grid.innerHTML = '<div class="video-empty"><span class="big-emoji">📹</span><p>Aún no hay videos. ¡Agregá el primero!</p></div>';
+      if (instructions) instructions.style.display = '';
+      return;
+    }
+
+    // Ocultar instrucciones cuando ya hay videos
+    if (instructions) instructions.style.display = 'none';
+
+    // Generar filtros automáticos desde categorías
+    var categorias = [];
+    VIDEOS.forEach(function(v) {
+      if (v.categoria && categorias.indexOf(v.categoria) < 0) categorias.push(v.categoria);
+    });
+    // Emojis para categorías comunes
+    var catEmojis = { humor:'😂', roast:'🔥', edit:'✂️', musical:'🎵', viral:'📲', meme:'🪳' };
+    filtersEl.innerHTML = '<button class="filter-chip active" data-filter="todos" onclick="filterVideos(\'todos\')">🪳 Todos</button>';
+    categorias.forEach(function(cat) {
+      var emoji = catEmojis[cat] || '🏷️';
+      filtersEl.innerHTML += '<button class="filter-chip" data-filter="' + cat + '" onclick="filterVideos(\'' + cat + '\')">' + emoji + ' ' + cat.charAt(0).toUpperCase() + cat.slice(1) + '</button>';
+    });
+
+    // Renderizar video cards
+    VIDEOS.forEach(function(v, idx) {
+      var card = document.createElement('div');
+      card.className = 'video-card';
+      card.dataset.categoria = v.categoria || '';
+      card.style.animationDelay = (idx * 0.08) + 's';
+
+      card.innerHTML =
+        '<div class="video-player-wrap">' +
+          '<video id="vid-' + idx + '" preload="metadata" playsinline webkit-playsinline>' +
+            '<source src="' + v.url + '" type="video/mp4">' +
+            'Tu navegador no soporta video.' +
+          '</video>' +
+          '<div class="video-play-overlay" id="overlay-' + idx + '" onclick="playVideo(' + idx + ')">' +
+            '<div class="play-circle"><div class="play-triangle"></div></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="video-card-body">' +
+          '<div class="video-card-title">' + v.titulo + '</div>' +
+          '<div class="video-card-meta">' +
+            (v.categoria ? '<span class="video-tag">' + v.categoria + '</span>' : '') +
+            (v.fecha ? '<span class="video-date">' + formatDate(v.fecha) + '</span>' : '') +
+          '</div>' +
+        '</div>';
+
+      grid.appendChild(card);
+    });
+  }
+
+  function playVideo(idx) {
+    var video = document.getElementById('vid-' + idx);
+    var overlay = document.getElementById('overlay-' + idx);
+    if (video) {
+      overlay.classList.add('hidden');
+      video.controls = true;
+      video.play();
+      // Cuando se pausa o termina, mostrar overlay de nuevo
+      video.addEventListener('pause', function() {
+        if (video.ended) {
+          overlay.classList.remove('hidden');
+          video.controls = false;
+        }
+      });
+      video.addEventListener('ended', function() {
+        overlay.classList.remove('hidden');
+        video.controls = false;
+      });
+    }
+  }
+
+  function filterVideos(cat) {
+    // Actualizar filtros activos
+    document.querySelectorAll('.filter-chip').forEach(function(chip) {
+      chip.classList.toggle('active', chip.dataset.filter === cat);
+    });
+    // Filtrar cards
+    document.querySelectorAll('.video-card').forEach(function(card) {
+      if (cat === 'todos') {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.toggle('hidden', card.dataset.categoria !== cat);
+      }
+    });
+  }
+
+  function formatDate(dateStr) {
+    var parts = dateStr.split('-');
+    var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    return parts[2] + ' ' + months[parseInt(parts[1]) - 1] + ' ' + parts[0];
+  }
+
+  // ========================================
   //  IMAGES - Para GitHub Pages:
   //  Reemplazá las rutas con las de tu repo
   // ========================================
@@ -1228,6 +1502,7 @@
   //  INIT
   // ========================================
   renderTerminos();
+  renderVideos();
   loadImages();
 
   // Handle back/forward navigation
