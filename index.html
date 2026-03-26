@@ -1367,7 +1367,7 @@
 
     <div class="stats-row">
       <div class="stat-chip">🎮 2 Juegos</div>
-      <div class="stat-chip">📹 10 Videos</div>
+      <div class="stat-chip">📹 20 Videos</div>
       <div class="stat-chip">📱 1 App</div>
       <div class="stat-chip">📖 65+ Términos</div>
       <div class="stat-chip">🪳 100% Humor</div>
@@ -1726,12 +1726,12 @@
     { nombre: 'Shakicuernos', def: 'Apodo para la que le pusieron los cuernos asi esza.' },
     { nombre: 'Ajonce', def: 'Putonce pero con aliento a ajo, le decimos Ajonce porque personas cercanas declararon que el ocico le apestaba a ajo.' },
     { nombre: 'Bebonna', def: 'Madonna versión bebé o cringe en sus fotos editadas con 1989 filtros de FaceApp.' },
-    { nombre: 'Riherpes', def: 'Rihanna pero con herpes en la geta, le decimos asi porque en una premiasión apareció con herpes en la bocaj.' },
+    { nombre: 'Riherpes', def: 'Rihanna pero con herpes en la geta, le decimos asi porque en una premiación apareció con herpes en la bocaj.' },
     { nombre: 'Adelegazo', def: 'Adele versión fitness extrema.' },
     { nombre: 'Mierga', def: 'Lady Gaga pero versión... bueno, ya saben mis chulas.' },
     { nombre: 'Locaney', def: 'Britney en su era más descontrolada.' },
     { nombre: 'Tayjoroba', def: 'Taylor Swift con el lomo saltado.' },
-    { nombre: 'Seleperro', def: 'Selena Gomez y una fan que por defenderla escribiendo "Selegod", se confundio y puso "Seledog".' },
+    { nombre: 'Seleperro', def: 'Selena Gomez y una fan que por defenderla escribiendo "Selegod", se confundió y puso "Seledog".' },
     { nombre: 'Cucaracharol', def: 'Karol G en modo cucaracha total.' },
     { nombre: 'Flopalia', def: 'Rosalía cuando floppea.' },
     { nombre: 'Mierdonna', def: 'Madonna en su era más cuestionable.' },
@@ -1753,7 +1753,7 @@
     { nombre: 'Hongomila', def: 'Camila Cabello con hongos.' },
     { nombre: 'Zorraliné', def: 'La anciana manca que canta la del barco.' },
     { nombre: 'Mancaline', def: 'Mancaline eres nadie.' },
-    { nombre: 'Perraliné', def: 'Zorralinñe una vez más.' },
+    { nombre: 'Perraliné', def: 'Zorraliné una vez más.' },
     { nombre: 'Fantesmi', def: 'La que es ovasionada por fantasmas.' },
     { nombre: 'Chespiritaj', def: 'La super comediante numero 1.' },
     { nombre: 'Miersia', def: 'La que canta la del candelabro.' },
@@ -1772,7 +1772,7 @@
     { nombre: 'Charlixbox', def: 'Charli XCX versión consola.' },
     { nombre: 'Espongela', def: 'La serota culo de espuma.' },
     { nombre: 'Mancana', def: 'La que canta la de los pantalones azules.' },
-    { nombre: 'Elefantana', def: 'te trago?.' },
+    { nombre: 'Elefantana', def: 'Te trago?.' },
     { nombre: 'Botoxna', def: 'Mancana y su botox.' },
     { nombre: 'Barrilna', def: 'Racistana como barril.' },
     { nombre: 'Rotoplasna', def: 'Mancana rotoplas.' },
@@ -1873,7 +1873,6 @@
       categoria: 'musical',
       fecha: '2025-01-01'
     },
-    // new
     {
       titulo: '🎪 El Festival de mi Colonia',
       url: 'video/00el-festivaal-de-mi-colonia.mp4',
@@ -1905,7 +1904,7 @@
       fecha: '2025-01-01'
     },
     {
-      titulo: '🙏🏻 La Peregrinación',
+      titulo: '🙏 La Peregrinación',
       url: 'video/00la-peregrinacion.mp4',
       categoria: 'roast',
       fecha: '2025-01-01'
@@ -1929,7 +1928,7 @@
       fecha: '2025-01-01'
     },
     {
-      titulo: '🎢 Parque de atracciones Chromatica',
+      titulo: '🎢 Parque de Chromatica',
       url: 'video/00parque-de-diversiones-cromatica.mp4',
       categoria: 'musical',
       fecha: '2025-01-01'
@@ -2017,7 +2016,7 @@
 
   function filterVideos(cat) {
     // Actualizar filtros activos
-    document.querySelectorAll('.filter-chip').forEach(function(chip) {
+    document.querySelectorAll('#videoFilters .filter-chip').forEach(function(chip) {
       chip.classList.toggle('active', chip.dataset.filter === cat);
     });
     // Filtrar cards
