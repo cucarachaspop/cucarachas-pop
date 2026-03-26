@@ -997,46 +997,236 @@
     }
 
     /* ========================================
-       SECTION: APPS
+       SECTION: APPS (Play Store style)
     ======================================== */
-    .app-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .app-item {
+    .app-listing {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
-      border-radius: var(--radius-md);
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
       transition: all var(--transition);
     }
-    .app-item:hover {
-      background: var(--glass-bg-hover);
-      border-color: var(--glass-border-hover);
-      transform: translateX(4px);
+
+    /* App header row (icon + info + button) */
+    .app-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 24px 24px 18px;
     }
-    .app-icon { font-size: 2rem; }
-    .app-info { flex: 1; }
-    .app-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 2px; }
-    .app-desc { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
-    .app-badge {
-      font-size: 0.68rem;
-      font-weight: 800;
-      padding: 4px 12px;
-      border-radius: var(--radius-pill);
-      background: rgba(255,213,79,0.12);
+
+    .app-icon-img {
+      width: 82px;
+      height: 82px;
+      border-radius: 18px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+
+    .app-header-info { flex: 1; min-width: 0; }
+
+    .app-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.35rem;
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .app-developer {
+      font-size: 0.82rem;
       color: var(--gold);
-      white-space: nowrap;
+      font-weight: 700;
+      margin-bottom: 6px;
     }
-    .app-badge.soon {
-      background: rgba(244,143,177,0.12);
-      color: var(--pink);
+
+    .app-meta-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .app-meta-chip {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Install button */
+    .app-install-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px 24px;
+      margin: 0 24px 20px;
+      width: calc(100% - 48px);
+      border: none;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, #34A853, #2E9B4A);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(52,168,83,0.35);
+      text-decoration: none;
+    }
+    .app-install-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(52,168,83,0.45);
+    }
+    .app-install-btn:active { transform: scale(0.98); }
+
+    .app-install-btn svg { flex-shrink: 0; }
+
+    .app-install-sub {
+      text-align: center;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.25);
+      padding-bottom: 16px;
+    }
+
+    /* Stats row */
+    .app-stats {
+      display: flex;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .app-stat {
+      flex: 1;
+      text-align: center;
+      padding: 14px 8px;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+    .app-stat:last-child { border-right: none; }
+    .app-stat-value {
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--cream);
+      line-height: 1.2;
+    }
+    .app-stat-label {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.3);
+      font-weight: 600;
+    }
+
+    /* Screenshots carousel */
+    .app-screenshots-section {
+      padding: 18px 24px 20px;
+    }
+    .app-screenshots-label {
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.9rem;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .app-screenshots-track {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(141,110,99,0.3) transparent;
+    }
+    .app-screenshots-track::-webkit-scrollbar { height: 4px; }
+    .app-screenshots-track::-webkit-scrollbar-thumb {
+      background: rgba(141,110,99,0.3);
+      border-radius: 2px;
+    }
+
+    .app-screenshot {
+      flex-shrink: 0;
+      width: 160px;
+      border-radius: 12px;
+      overflow: hidden;
+      scroll-snap-align: start;
+      background: rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .app-screenshot:hover {
+      transform: scale(1.04);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    }
+    .app-screenshot img {
+      width: 100%;
+      display: block;
+      transition: opacity 0.4s ease;
+      opacity: 0;
+    }
+    .app-screenshot img.loaded { opacity: 1; }
+
+    /* Description */
+    .app-description {
+      padding: 0 24px 22px;
+    }
+    .app-desc-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.9rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .app-desc-text {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.55);
+    }
+    .app-desc-text strong { color: var(--cream); }
+
+    /* Tags */
+    .app-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 0 24px 22px;
+    }
+    .app-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: var(--radius-pill);
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* Permissions / info */
+    .app-info-section {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 16px 24px;
+    }
+    .app-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      font-size: 0.8rem;
+    }
+    .app-info-label { color: rgba(255,255,255,0.3); font-weight: 600; }
+    .app-info-value { color: rgba(255,255,255,0.6); font-weight: 700; }
+
+    @media (max-width: 600px) {
+      .app-header { padding: 18px 16px 14px; }
+      .app-icon-img { width: 66px; height: 66px; border-radius: 14px; }
+      .app-title { font-size: 1.15rem; }
+      .app-install-btn { margin: 0 16px 16px; width: calc(100% - 32px); }
+      .app-screenshots-section { padding: 14px 16px 16px; }
+      .app-screenshot { width: 130px; }
+      .app-description { padding: 0 16px 18px; }
+      .app-tags { padding: 0 16px 18px; }
+      .app-info-section { padding: 14px 16px; }
     }
 
     /* ========================================
@@ -1178,6 +1368,7 @@
     <div class="stats-row">
       <div class="stat-chip">🎮 2 Juegos</div>
       <div class="stat-chip">📹 10 Videos</div>
+      <div class="stat-chip">📱 1 App</div>
       <div class="stat-chip">📖 65+ Términos</div>
       <div class="stat-chip">🪳 100% Humor</div>
     </div>
@@ -1334,53 +1525,114 @@
 
   <!-- ===== APPS ===== -->
   <section class="section" id="sec-apps">
-    <h2 class="section-header"><span class="emoji">📱</span> Apps & Herramientas</h2>
-    <p class="section-subtitle">Herramientas cucaracheras para la comunidad</p>
+    <h2 class="section-header"><span class="emoji">📱</span> Apps</h2>
+    <p class="section-subtitle">Apps oficiales de Cucarachas Pop</p>
 
-    <div class="app-list">
-      <div class="app-item">
-        <span class="app-icon">🔤</span>
-        <div class="app-info">
-          <div class="app-name">Sopa de Letras</div>
-          <div class="app-desc">Encuentra las palabras pop escondidas</div>
+    <!-- VOCES POP - Ficha estilo Play Store -->
+    <div class="app-listing">
+
+      <!-- Header: Icono + Info -->
+      <div class="app-header">
+        <img class="app-icon-img" src="apps/appicon.jpg" alt="Voces Pop" onerror="this.style.background='rgba(255,213,79,0.15)';this.alt='🗣️';">
+        <div class="app-header-info">
+          <div class="app-title">Voces Pop</div>
+          <div class="app-developer">Cucarachas Pop</div>
+          <div class="app-meta-chips">
+            <span class="app-meta-chip">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2.247l-1.399 2.425a10.019 10.019 0 014.858 8.078H3.017a10.019 10.019 0 014.858-8.078L6.477 2.247a.5.5 0 01.867-.5l1.418 2.456A9.93 9.93 0 0112 3.5a9.93 9.93 0 013.238.703l1.418-2.456a.5.5 0 01.867.5zM8.75 8.5a.75.75 0 100 1.5.75.75 0 000-1.5zm6.5 0a.75.75 0 100 1.5.75.75 0 000-1.5zM3 14.25v5.5A2.25 2.25 0 005.25 22h13.5A2.25 2.25 0 0021 19.75v-5.5H3z"/></svg>
+              Android
+            </span>
+            <span class="app-meta-chip">🗣️ TTS</span>
+            <span class="app-meta-chip">🆓 Gratis</span>
+          </div>
         </div>
-        <span class="app-badge">Activo</span>
       </div>
-      <div class="app-item">
-        <span class="app-icon">🎤</span>
-        <div class="app-info">
-          <div class="app-name">Adivina el Artista</div>
-          <div class="app-desc">¿Reconocés al artista por un emoji?</div>
+
+      <!-- Install Button -->
+      <a href="apps/voces-pop.apk" download class="app-install-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        Descargar APK
+      </a>
+      <div class="app-install-sub">Descarga directa · Solo Android</div>
+
+      <!-- Stats -->
+      <div class="app-stats">
+        <div class="app-stat">
+          <div class="app-stat-value">🗣️</div>
+          <div class="app-stat-label">Text-to-Speech</div>
         </div>
-        <span class="app-badge">Activo</span>
-      </div>
-      <div class="app-item">
-        <span class="app-icon">🪳</span>
-        <div class="app-info">
-          <div class="app-name">Generador de Apodos</div>
-          <div class="app-desc">Creá apodos cucaracheros para cualquier artista</div>
+        <div class="app-stat">
+          <div class="app-stat-value">🆓</div>
+          <div class="app-stat-label">Gratis</div>
         </div>
-        <span class="app-badge soon">Próximamente</span>
-      </div>
-      <div class="app-item">
-        <span class="app-icon">📊</span>
-        <div class="app-info">
-          <div class="app-name">Ranking Cucarachero</div>
-          <div class="app-desc">Votá y mirá el ranking de artistas</div>
+        <div class="app-stat">
+          <div class="app-stat-value">📱</div>
+          <div class="app-stat-label">Android</div>
         </div>
-        <span class="app-badge soon">Próximamente</span>
-      </div>
-      <div class="app-item">
-        <span class="app-icon">🎵</span>
-        <div class="app-info">
-          <div class="app-name">Lotería Pop</div>
-          <div class="app-desc">La lotería pero con artistas pop</div>
+        <div class="app-stat">
+          <div class="app-stat-value">🪳</div>
+          <div class="app-stat-label">Cucarachera</div>
         </div>
-        <span class="app-badge soon">Próximamente</span>
       </div>
+
+      <!-- Screenshots -->
+      <div class="app-screenshots-section">
+        <div class="app-screenshots-label">📸 Capturas de pantalla</div>
+        <div class="app-screenshots-track">
+          <div class="app-screenshot" onclick="openLightbox(0);lightboxItems=[{rawUrl:'apps/Screenshot_20260325_211415_Voces%20Pop.jpg',name:'Voces Pop 1',folder:'app'},{rawUrl:'apps/Screenshot_20260325_211423_Voces%20Pop.jpg',name:'Voces Pop 2',folder:'app'},{rawUrl:'apps/Screenshot_20260325_211429_Voces%20Pop.jpg',name:'Voces Pop 3',folder:'app'}];">
+            <img src="apps/Screenshot_20260325_211415_Voces%20Pop.jpg" alt="Voces Pop Screenshot 1" loading="lazy" onload="this.classList.add('loaded')">
+          </div>
+          <div class="app-screenshot" onclick="openLightbox(1);lightboxItems=[{rawUrl:'apps/Screenshot_20260325_211415_Voces%20Pop.jpg',name:'Voces Pop 1',folder:'app'},{rawUrl:'apps/Screenshot_20260325_211423_Voces%20Pop.jpg',name:'Voces Pop 2',folder:'app'},{rawUrl:'apps/Screenshot_20260325_211429_Voces%20Pop.jpg',name:'Voces Pop 3',folder:'app'}];">
+            <img src="apps/Screenshot_20260325_211423_Voces%20Pop.jpg" alt="Voces Pop Screenshot 2" loading="lazy" onload="this.classList.add('loaded')">
+          </div>
+          <div class="app-screenshot" onclick="openLightbox(2);lightboxItems=[{rawUrl:'apps/Screenshot_20260325_211415_Voces%20Pop.jpg',name:'Voces Pop 1',folder:'app'},{rawUrl:'apps/Screenshot_20260325_211423_Voces%20Pop.jpg',name:'Voces Pop 2',folder:'app'},{rawUrl:'apps/Screenshot_20260325_211429_Voces%20Pop.jpg',name:'Voces Pop 3',folder:'app'}];">
+            <img src="apps/Screenshot_20260325_211429_Voces%20Pop.jpg" alt="Voces Pop Screenshot 3" loading="lazy" onload="this.classList.add('loaded')">
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="app-description">
+        <div class="app-desc-title">Acerca de esta app</div>
+        <p class="app-desc-text">
+          <strong>Voces Pop</strong> es la app oficial de Cucarachas Pop para convertir texto en voz. 
+          Escribí cualquier frase y escuchala con las voces más cucaracheras del pop. 
+          Perfecta para crear audios de humor, memes y contenido para la comunidad. 🪳🗣️
+        </p>
+      </div>
+
+      <!-- Tags -->
+      <div class="app-tags">
+        <span class="app-tag">🗣️ Text-to-Speech</span>
+        <span class="app-tag">🪳 Humor Pop</span>
+        <span class="app-tag">🎵 Audio</span>
+        <span class="app-tag">📱 Android</span>
+        <span class="app-tag">🆓 Gratis</span>
+      </div>
+
+      <!-- Info -->
+      <div class="app-info-section">
+        <div class="app-info-row">
+          <span class="app-info-label">Versión</span>
+          <span class="app-info-value">1.0</span>
+        </div>
+        <div class="app-info-row">
+          <span class="app-info-label">Plataforma</span>
+          <span class="app-info-value">Android</span>
+        </div>
+        <div class="app-info-row">
+          <span class="app-info-label">Desarrollador</span>
+          <span class="app-info-value">Cucarachas Pop</span>
+        </div>
+        <div class="app-info-row">
+          <span class="app-info-label">Precio</span>
+          <span class="app-info-value" style="color:var(--green);">Gratis 🪳</span>
+        </div>
+      </div>
+
     </div>
 
-    <div class="footer-bottom">Más herramientas en desarrollo... 🪳</div>
+    <div class="footer-bottom">🪳 Apps Cucaracheras</div>
   </section>
 
 </main>
