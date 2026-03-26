@@ -839,9 +839,9 @@
   <section class="section active" id="sec-inicio">
     <div class="hero">
       <!-- Reemplaza src con la ruta de tu imagen en el repo de GitHub -->
-      <img id="heroLogo" class="hero-logo" src="" alt="Cucarachas Pop Logo">
+      <img id="heroLogo" class="hero-logo" src="images/logo.png" alt="Cucarachas Pop Logo">
       <div class="hero-profile-row">
-        <img id="heroAvatar" class="hero-avatar" src="" alt="Perfil">
+        <img id="heroAvatar" class="hero-avatar" src="images/profile.jpg" alt="Perfil">
         <div>
           <h1 class="hero-title">Cucarachas Pop</h1>
           <p class="hero-tagline">La página del milenio 🪳✨</p>
@@ -1212,21 +1212,16 @@
   //  Reemplazá las rutas con las de tu repo
   // ========================================
   function loadImages() {
-    // Cuando subas tus imágenes al repo, actualizá estas rutas:
-    // Ejemplo: 'images/logo.png', 'images/profile.jpg'
     var logo = document.getElementById('heroLogo');
     var avatar = document.getElementById('heroAvatar');
 
-    // Placeholder: descomentar y actualizar cuando tengas las imágenes
-    // logo.src = 'images/logo.png';
-    // logo.onload = function() { logo.classList.add('loaded'); };
-    // avatar.src = 'images/profile.jpg';
-    // avatar.onload = function() { avatar.classList.add('loaded'); };
+    // Logo
+    logo.onload = function() { logo.classList.add('loaded'); };
+    logo.onerror = function() { logo.style.display = 'none'; };
 
-    // Por ahora mostramos placeholders
-    logo.alt = '🪳';
-    logo.style.display = 'none';
-    avatar.style.display = 'none';
+    // Avatar / Foto de perfil
+    avatar.onload = function() { avatar.classList.add('loaded'); };
+    avatar.onerror = function() { avatar.style.display = 'none'; };
   }
 
   // ========================================
