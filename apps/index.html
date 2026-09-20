@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2C1A12">
+  <meta name="description" content="Descarga Voces Pop para Android, la app oficial de Cucarachas Pop.">
+  <title>Voces Pop 2.0 · Cucarachas Pop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brown-dark: #2C1A12;
+      --brown-deep: #3E2723;
+      --brown-mid: #5D4037;
+      --cream: #EFEBE9;
+      --gold: #FFD54F;
+      --pink: #F48FB1;
+      --green: #66BB6A;
+      --green-deep: #2E9B4A;
+      --glass-bg: rgba(255,255,255,.07);
+      --glass-bg-hover: rgba(255,255,255,.11);
+      --glass-border: rgba(255,255,255,.12);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-pill: 999px;
+      --shadow-lg: 0 20px 60px rgba(0,0,0,.35);
+      --transition: .3s cubic-bezier(.4,0,.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: 'Nunito', sans-serif;
+      color: var(--cream);
+      background: var(--brown-dark);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(244,143,177,.12), transparent 34%),
+        radial-gradient(circle at 90% 18%, rgba(255,213,79,.10), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(102,187,106,.07), transparent 30%),
+        linear-gradient(160deg, #2C1A12 0%, #3E2723 42%, #4E342E 70%, #2C1A12 100%);
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .45;
+      background-image: url("data:image/svg+xml,%3Csvg width='42' height='42' viewBox='0 0 42 42' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='21' cy='21' r='1' fill='%23ffffff' fill-opacity='.035'/%3E%3C/svg%3E");
+    }
+
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px max(16px, env(safe-area-inset-left));
+      background: rgba(44,26,18,.78);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .back-btn {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+      background: rgba(255,255,255,.05);
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 1.25rem;
+      transition: var(--transition);
+    }
+    .back-btn:hover { background: rgba(255,255,255,.1); transform: translateX(-2px); }
+
+    .brand { min-width: 0; }
+    .brand-name {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--gold), var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand-sub {
+      margin-top: 3px;
+      font-size: .7rem;
+      color: rgba(255,255,255,.38);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .topbar-pill {
+      margin-left: auto;
+      padding: 7px 11px;
+      border-radius: var(--radius-pill);
+      background: rgba(102,187,106,.12);
+      border: 1px solid rgba(102,187,106,.22);
+      color: #9ae59d;
+      font-size: .72rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    main {
+      width: min(960px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 30px 0 72px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: rgba(255,255,255,.4);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    .breadcrumb a { text-decoration: none; }
+    .breadcrumb a:hover { color: var(--gold); }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .hero-card::after {
+      content: '🪳';
+      position: absolute;
+      right: -28px;
+      bottom: -52px;
+      font-size: 11rem;
+      opacity: .035;
+      transform: rotate(-18deg);
+      pointer-events: none;
+    }
+
+    .app-head {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 112px minmax(0,1fr);
+      gap: 22px;
+      align-items: center;
+    }
+    .app-icon {
+      width: 112px;
+      height: 112px;
+      object-fit: cover;
+      border-radius: 25px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+    .eyebrow {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.07);
+      color: rgba(255,255,255,.55);
+      font-size: .68rem;
+      font-weight: 800;
+    }
+    .chip.current {
+      background: rgba(102,187,106,.12);
+      border-color: rgba(102,187,106,.22);
+      color: #9ae59d;
+    }
+    h1 {
+      margin: 0;
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 7vw, 3.25rem);
+      line-height: 1;
+      letter-spacing: -.02em;
+    }
+    .developer { margin: 8px 0 0; color: var(--gold); font-size: .9rem; font-weight: 800; }
+    .version-line { margin: 7px 0 0; color: rgba(255,255,255,.46); font-size: .83rem; font-weight: 700; }
+
+    .download-row {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      align-items: center;
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .download-btn {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      background: linear-gradient(135deg, #34A853, var(--green-deep));
+      color: white;
+      font-weight: 900;
+      box-shadow: 0 8px 24px rgba(52,168,83,.25);
+      transition: var(--transition);
+    }
+    .download-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(52,168,83,.34); }
+    .download-btn:active { transform: scale(.99); }
+    .download-btn svg { flex: 0 0 auto; }
+    .download-note {
+      min-width: 130px;
+      text-align: right;
+      color: rgba(255,255,255,.4);
+      font-size: .72rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+    .download-note strong { display: block; color: rgba(255,255,255,.75); font-size: .8rem; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 18px;
+      background: rgba(0,0,0,.08);
+    }
+    .stat { padding: 16px 10px; text-align: center; border-right: 1px solid rgba(255,255,255,.06); }
+    .stat:last-child { border-right: 0; }
+    .stat-value { font-size: 1.15rem; font-weight: 900; }
+    .stat-label { margin-top: 4px; color: rgba(255,255,255,.36); font-size: .66rem; font-weight: 800; }
+
+    .section-card {
+      margin-top: 18px;
+      padding: 24px;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .section-title {
+      margin: 0 0 14px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.14rem;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .section-copy {
+      margin: 0;
+      color: rgba(255,255,255,.56);
+      line-height: 1.7;
+      font-size: .9rem;
+    }
+    .section-copy strong { color: var(--cream); }
+
+    .screenshots {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(145px, 190px);
+      gap: 12px;
+      overflow-x: auto;
+      padding: 2px 2px 10px;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-inline: contain;
+    }
+    .screenshots::-webkit-scrollbar { height: 5px; }
+    .screenshots::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 20px; }
+    .shot {
+      appearance: none;
+      padding: 0;
+      overflow: hidden;
+      aspect-ratio: 9/19.5;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
+      cursor: zoom-in;
+      scroll-snap-align: start;
+      box-shadow: 0 7px 18px rgba(0,0,0,.18);
+      transition: var(--transition);
+    }
+    .shot:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.22); }
+    .shot img { width: 100%; height: 100%; display: block; object-fit: cover; }
+
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+    .tag {
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      color: rgba(255,255,255,.45);
+      background: rgba(255,255,255,.05);
+      font-size: .72rem;
+      font-weight: 800;
+    }
+
+    .version-current {
+      display: grid;
+      grid-template-columns: auto minmax(0,1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(102,187,106,.07);
+      border: 1px solid rgba(102,187,106,.13);
+    }
+    .version-icon { font-size: 1.5rem; }
+    .version-name { font-weight: 900; }
+    .version-meta { margin-top: 3px; color: rgba(255,255,255,.4); font-size: .72rem; font-weight: 700; }
+    .version-badge { color: #9ae59d; font-size: .72rem; font-weight: 900; }
+
+    details.old-versions {
+      margin-top: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      background: rgba(255,255,255,.025);
+    }
+    details.old-versions summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 15px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .82rem;
+      font-weight: 900;
+      color: rgba(255,255,255,.72);
+    }
+    details.old-versions summary::-webkit-details-marker { display: none; }
+    details.old-versions summary::after { content: '⌄'; margin-left: auto; transition: var(--transition); }
+    details.old-versions[open] summary::after { transform: rotate(180deg); }
+    .old-list { padding: 0 12px 12px; }
+    .old-item {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 13px;
+      background: rgba(255,255,255,.04);
+    }
+    .old-title { font-weight: 900; font-size: .88rem; }
+    .old-meta { margin-top: 3px; color: rgba(255,255,255,.34); font-size: .7rem; font-weight: 700; }
+    .old-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 12px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-pill);
+      color: rgba(255,255,255,.78);
+      background: rgba(255,255,255,.06);
+      text-decoration: none;
+      font-size: .74rem;
+      font-weight: 900;
+      transition: var(--transition);
+    }
+    .old-download:hover { background: rgba(255,255,255,.1); }
+
+    .info-grid { display: grid; gap: 0; }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,.055);
+      font-size: .82rem;
+    }
+    .info-row:last-child { border-bottom: 0; }
+    .info-label { color: rgba(255,255,255,.34); font-weight: 700; }
+    .info-value { text-align: right; color: rgba(255,255,255,.68); font-weight: 900; }
+    .free { color: #9ae59d; }
+
+    footer {
+      padding-top: 40px;
+      text-align: center;
+      color: rgba(255,255,255,.18);
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 70px 60px 40px;
+      background: rgba(16,9,6,.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      opacity: 0;
+      visibility: hidden;
+      transition: .22s ease;
+    }
+    .lightbox.open { opacity: 1; visibility: visible; }
+    .lightbox img {
+      max-width: min(420px, 90vw);
+      max-height: 82vh;
+      border-radius: 20px;
+      box-shadow: 0 20px 70px rgba(0,0,0,.62);
+    }
+    .lb-close, .lb-nav {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.08);
+      color: white;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .lb-close { top: 18px; right: 18px; width: 44px; height: 44px; border-radius: 50%; font-size: 1rem; }
+    .lb-nav { top: 50%; width: 48px; height: 48px; border-radius: 50%; transform: translateY(-50%); font-size: 1.4rem; }
+    .lb-prev { left: 18px; }
+    .lb-next { right: 18px; }
+    .lb-close:hover, .lb-nav:hover { background: rgba(255,255,255,.15); }
+
+    @media (max-width: 700px) {
+      main { width: min(100% - 24px, 960px); padding-top: 18px; }
+      .hero-card { padding: 20px; border-radius: 22px; }
+      .app-head { grid-template-columns: 82px minmax(0,1fr); gap: 16px; }
+      .app-icon { width: 82px; height: 82px; border-radius: 19px; }
+      h1 { font-size: 2rem; }
+      .download-row { grid-template-columns: 1fr; }
+      .download-note { text-align: center; }
+      .stats { grid-template-columns: repeat(2,1fr); }
+      .stat:nth-child(2) { border-right: 0; }
+      .stat:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.06); }
+      .section-card { padding: 18px; }
+      .topbar-pill { display: none; }
+      .version-current { grid-template-columns: auto 1fr; }
+      .version-badge { grid-column: 2; }
+      .lightbox { padding-inline: 18px; }
+      .lb-nav { width: 42px; height: 42px; top: auto; bottom: 18px; transform: none; }
+      .lb-prev { left: calc(50% - 52px); }
+      .lb-next { right: calc(50% - 52px); }
+    }
+
+    @media (max-width: 420px) {
+      .brand-sub { display: none; }
+      .app-head { align-items: start; }
+      .eyebrow .chip:not(.current) { display: none; }
+      .old-item { grid-template-columns: 1fr; }
+      .old-download { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="back-btn" href="../" aria-label="Volver a Cucarachas Pop">←</a>
+    <div class="brand">
+      <div class="brand-name">Cucarachas Pop</div>
+      <div class="brand-sub">Apps oficiales</div>
+    </div>
+    <span class="topbar-pill">● Versión actual 2.0</span>
+  </header>
+
+  <main>
+    <nav class="breadcrumb" aria-label="Migas de pan">
+      <a href="../">Inicio</a><span>›</span><span>Apps</span><span>›</span><span>Voces Pop</span>
+    </nav>
+
+    <section class="hero-card">
+      <div class="app-head">
+        <img class="app-icon" src="appicon.jpg" alt="Icono de Voces Pop">
+        <div>
+          <div class="eyebrow">
+            <span class="chip current">✓ Versión actual</span>
+            <span class="chip">Android</span>
+            <span class="chip">Gratis</span>
+          </div>
+          <h1>Voces Pop</h1>
+          <p class="developer">Cucarachas Pop</p>
+          <p class="version-line">Versión 2.0 · APK para Android</p>
+        </div>
+      </div>
+
+      <div class="download-row">
+        <a class="download-btn" href="voces-pop.apk" download="Voces-Pop-2.0.apk">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          Descargar Voces Pop 2.0
+        </a>
+        <div class="download-note"><strong>Descarga directa</strong>Solo Android</div>
+      </div>
+
+      <div class="stats" aria-label="Características principales">
+        <div class="stat"><div class="stat-value">🗣️</div><div class="stat-label">Text-to-Speech</div></div>
+        <div class="stat"><div class="stat-value">🎙️</div><div class="stat-label">Audio</div></div>
+        <div class="stat"><div class="stat-value">📱</div><div class="stat-label">Android</div></div>
+        <div class="stat"><div class="stat-value">🆓</div><div class="stat-label">Gratis</div></div>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h2 class="section-title">📸 Capturas de pantalla</h2>
+      <div class="screenshots">
+        <button class="shot" type="button" data-index="0" aria-label="Abrir captura 1"><img src="Screenshot_20260325_211415_Voces%20Pop.jpg" alt="Captura de Voces Pop 1" loading="lazy"></button>
+        <button class="shot" type="button" data-index="1" aria-label="Abrir captura 2"><img src="Screenshot_20260325_211423_Voces%20Pop.jpg" alt="Captura de Voces Pop 2" loading="lazy"></button>
+        <button class="shot" type="button" data-index="2" aria-label="Abrir captura 3"><img src="Screenshot_20260325_211429_Voces%20Pop.jpg" alt="Captura de Voces Pop 3" loading="lazy"></button>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h2 class="section-title">🪳 Acerca de esta app</h2>
+      <p class="section-copy">
+        <strong>Voces Pop</strong> es la app oficial de Cucarachas Pop para convertir texto en vozaj.
+        Escribe cualquier frase y escúchala con las voces más personales del humor pop. Perfecticki para crear audios,
+        memes y contenido para la humora pop que nos haga expulsar la Witness, así esza. 🗣️✨
+      </p>
+      <div class="tags">
+        <span class="tag">🗣️ Text-to-Speech</span>
+        <span class="tag">🪳 Humor Pop</span>
+        <span class="tag">🎵 Audio</span>
+        <span class="tag">📱 Android</span>
+      </div>
+    </section>
+
+    <section class="section-card" id="versiones">
+      <h2 class="section-title">📦 Versiones</h2>
+      <div class="version-current">
+        <div class="version-icon">✨</div>
+        <div>
+          <div class="version-name">Voces Pop 2.0</div>
+          <div class="version-meta">Versión recomendada · descarga principal</div>
+        </div>
+        <div class="version-badge">ACTUAL</div>
+      </div>
+
+      <details class="old-versions">
+        <summary>Versiones anteriores</summary>
+        <div class="old-list">
+          <div class="old-item">
+            <div>
+              <div class="old-title">Voces Pop 1.0</div>
+              <div class="old-meta">Versión anterior · archivo histórico</div>
+            </div>
+            <a class="old-download" href="voces-pop-1.0.apk" download="Voces-Pop-1.0.apk">↓ Descargar 1.0</a>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="section-card">
+      <h2 class="section-title">ℹ️ Información</h2>
+      <div class="info-grid">
+        <div class="info-row"><span class="info-label">Versión actual</span><span class="info-value">2.0</span></div>
+        <div class="info-row"><span class="info-label">Plataforma</span><span class="info-value">Android</span></div>
+        <div class="info-row"><span class="info-label">Formato</span><span class="info-value">APK</span></div>
+        <div class="info-row"><span class="info-label">Desarrollador</span><span class="info-value">Cucarachas Pop</span></div>
+        <div class="info-row"><span class="info-label">Precio</span><span class="info-value free">Gratis 🪳</span></div>
+      </div>
+    </section>
+
+    <footer>🪳 Cucarachas Pop · Apps Cucaracheras</footer>
+  </main>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Captura ampliada">
+    <button class="lb-close" type="button" id="lbClose" aria-label="Cerrar">✕</button>
+    <button class="lb-nav lb-prev" type="button" id="lbPrev" aria-label="Anterior">‹</button>
+    <img id="lbImage" src="" alt="Captura ampliada de Voces Pop">
+    <button class="lb-nav lb-next" type="button" id="lbNext" aria-label="Siguiente">›</button>
+  </div>
+
+  <script>
+    (function () {
+      var images = [
+        'Screenshot_20260325_211415_Voces%20Pop.jpg',
+        'Screenshot_20260325_211423_Voces%20Pop.jpg',
+        'Screenshot_20260325_211429_Voces%20Pop.jpg'
+      ];
+      var lightbox = document.getElementById('lightbox');
+      var lbImage = document.getElementById('lbImage');
+      var current = 0;
+
+      function show(index) {
+        current = (index + images.length) % images.length;
+        lbImage.src = images[current];
+      }
+      function open(index) {
+        show(index);
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function close() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.shot').forEach(function (button) {
+        button.addEventListener('click', function () { open(Number(button.dataset.index)); });
+      });
+      document.getElementById('lbClose').addEventListener('click', close);
+      document.getElementById('lbPrev').addEventListener('click', function () { show(current - 1); });
+      document.getElementById('lbNext').addEventListener('click', function () { show(current + 1); });
+      lightbox.addEventListener('click', function (event) { if (event.target === lightbox) close(); });
+      document.addEventListener('keydown', function (event) {
+        if (!lightbox.classList.contains('open')) return;
+        if (event.key === 'Escape') close();
+        if (event.key === 'ArrowLeft') show(current - 1);
+        if (event.key === 'ArrowRight') show(current + 1);
+      });
+    })();
+  </script>
+</body>
+</html>
